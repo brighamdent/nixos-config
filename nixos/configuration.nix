@@ -103,7 +103,9 @@
       # ];
 
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = [ "wheel" ];
+      extraGroups = [
+        "wheel"
+      ];
     };
   };
 
@@ -155,6 +157,8 @@
       exec Hyprland
     fi
   '';
+
+  boot.kernel.sysctl."vm.max_map_count" = lib.mkForce 2147483642;
 
   hardware.bluetooth = {
     enable = true;

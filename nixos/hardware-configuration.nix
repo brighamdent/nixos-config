@@ -12,6 +12,11 @@
     fsType = "ext4";
   };
 
+  fileSystems."/home/brigham/games" = {
+    device = "/dev/nvme0n1p1";
+    fsType = "ext4";
+  };
+
   # Set your system kind (needed for flakes)
   nixpkgs.hostPlatform = "x86_64-linux";
 }
