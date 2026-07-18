@@ -25,6 +25,7 @@
 
   environment.systemPackages = [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    (pkgs.btop.override { cudaSupport = true; })
   ];
 
   nixpkgs = {
@@ -105,6 +106,7 @@
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
       extraGroups = [
         "wheel"
+        "uinput"
       ];
     };
   };
@@ -120,6 +122,15 @@
       # Remove if you want to SSH using passwords
       PasswordAuthentication = true;
     };
+  };
+
+  hardware.uinput.enable = true;
+
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
+    openFirewall = true;
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
@@ -145,8 +156,17 @@
   ];
 
   # Audio
-  services.pulseaudio.enable = true;
-  services.pulseaudio.support32Bit = true;
+  # services.pulseaudio.enable = true;
+  # services.pulseaudio.support32Bit = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
   services.blueman.enable = true;
   services.timesyncd.enable = true;
   services.geoclue2.enable = true;

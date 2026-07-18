@@ -60,6 +60,24 @@
     --ozone-platform=wayland
   '';
 
+  xdg = {
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      config = {
+        # common.default = [ "gtk" ];
+        hyprland.default = [
+          # "gtk"
+          "hyprland"
+        ];
+      };
+      extraPortals = [
+        # pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-hyprland
+      ];
+    };
+  };
+
   # wayland.windowManager.hyprland.enable = true;
 
   # Add stuff for your user as you see fit:
@@ -91,7 +109,7 @@
     kitty
     tmux
     stow
-    htop
+    btop
     gcc
     fastfetch
     eza
@@ -116,6 +134,9 @@
     parted
     gamemode
     unzip
+    wireplumber
+    imagemagick
+    speedtest-cli
   ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
