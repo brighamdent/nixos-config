@@ -59,7 +59,7 @@ wall_selection=$(find "${wall_dir}"  -maxdepth 1  -type f \( -iname "*.jpg" -o -
 #     s/^\(.*inactive_opacity = 0\)/#\1/;
 # }' "${HOME}/.config/hypr/hyprland.conf"
 [[ -n "$wall_selection" ]] || exit 1
-exec ~/scripts/changewallpaper.sh ${wall_dir}/${wall_selection} 
+exec change-wallpaper ${wall_dir}/${wall_selection} 
 
 # sed -i '/inactive_opacity/ s/^/#/' "$HOME/.config/hypr/hyprland.conf"
 # sed -i '/active_opacity/ s/^/#/' "$HOME/.config/hypr/hyprland.conf"

@@ -17,7 +17,7 @@
       ls = "eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions";
       clear = "clear && fastfetch";
 
-      tmfloat = "~/scripts/tmux_session_float.sh";
+      tmfloat = "tmux-float";
       tmcode = "tmux-code";
       rebuild = "sudo nixos-rebuild switch --flake ~/.nixos#nixbox";
     };
