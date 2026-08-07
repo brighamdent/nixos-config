@@ -4,6 +4,11 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nur.url = "github:nix-community/NUR";
+    eden = {
+      url = "github:Daaboulex/eden-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -61,12 +66,17 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        # FIXME replace with your hostname
         nixbox = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
-            # > Our main nixos configuration file <
             ./nixos/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.users.brigham = import ./home-manager/home.nix;
+            }
           ];
         };
       };
@@ -82,6 +92,7 @@
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/home.nix
+
           ];
         };
       };

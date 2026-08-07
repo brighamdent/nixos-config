@@ -18,9 +18,8 @@
       clear = "clear && fastfetch";
 
       tmfloat = "~/scripts/tmux_session_float.sh";
-      tmcode = "~/scripts/tmux_session_code.sh";
-      rebuild = "sudo nixos-rebuild switch --flake ~/.nixos#nixbox &&
-      home-manager switch --flake ~/.nixos";
+      tmcode = "tmux-code";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.nixos#nixbox";
     };
 
     # -------------------------

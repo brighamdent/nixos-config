@@ -21,11 +21,17 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    inputs.eden.nixosModules.default
   ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
+    home-manager
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     (pkgs.btop.override { cudaSupport = true; })
+    # inputs.nur.legacyPackages.${pkgs.system}.repos.ivar.yuzu-mainline
+
   ];
 
   nixpkgs = {
@@ -36,6 +42,7 @@
       inputs.self.overlays.modifications
       inputs.self.overlays.unstable-packages
 
+      inputs.eden.overlays.default
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
@@ -52,6 +59,11 @@
       allowUnfree = true;
     };
   };
+
+  environment.pathsToLink = [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
+  ];
 
   nixpkgs.config.allowUnfreePredicate =
     pkg:
@@ -80,6 +92,7 @@
 
   #System Packages
   programs.fish.enable = true;
+  programs.eden.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -171,6 +184,7 @@
   services.timesyncd.enable = true;
   services.geoclue2.enable = true;
   services.automatic-timezoned.enable = true;
+  security.polkit.enable = true;
 
   environment.loginShellInit = ''
     if [ "$(tty)" = "/dev/tty1" ]; then
