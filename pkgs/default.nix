@@ -3,4 +3,5 @@
 pkgs: {
   # example = pkgs.callPackage ./example { };
   tmux-code = pkgs.callPackage ./tmux-code.nix { };
+  tmux-float = pkgs.callPackage ./tmux-float.nix { };
 }
