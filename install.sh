@@ -4,7 +4,16 @@ export NIX_CONFIG="experimental-features = nix-command flakes"
 REPO_URL="https://github.com/brighamdent/nixos-config.git"
 WALLPAPER_URL="https://github.com/brighamdent/wallpapers.git"
 CLONE_DIR="/tmp/nixos-config"
-FLAKE_HOST="nixbox"
+
+echo "==> Select host:"
+echo "  1) nixbox (desktop)"
+echo "  2) nixbook (laptop)"
+read -p "Enter choice [1-2]: " host_choice
+case "$host_choice" in
+  1) FLAKE_HOST="nixbox";  HW_DIR="$CLONE_DIR/hosts/desktop" ;;
+  2) FLAKE_HOST="nixbook"; HW_DIR="$CLONE_DIR/hosts/laptop"  ;;
+  *) echo "Invalid choice"; exit 1 ;;
+esac
 
 rm -rf "$CLONE_DIR"
 
@@ -18,11 +27,11 @@ read -p "Enter target device (e.g. /dev/nvme0n1): " device
 echo "==> Partitioning and formatting via disko"
 sudo -E nix run github:nix-community/disko -- \
   --mode disko \
-  --flake "$CLONE_DIR#$FLAKE_HOST" \
+  "$CLONE_DIR/hosts/disko.nix" \
   --argstr device "$device"
 
 echo "==> Regenerating hardware-configuration.nix"
-sudo nixos-generate-config --no-filesystems --root /mnt --dir "$CLONE_DIR/nixos"
+sudo nixos-generate-config --no-filesystems --root /mnt --dir "$HW_DIR"
 
 echo "==> Copying config and wallpapers into new system"
 sudo mkdir -p /mnt/home/brigham/media

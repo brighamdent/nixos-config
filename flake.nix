@@ -47,30 +47,55 @@
       homeManagerModules = import ./modules/home-manager;
 
       # Standalone disko configuration, used during install
-      # (nix run github:nix-community/disko -- --mode disko --flake .#nixbox)
-      diskoConfigurations.nixbox = import ./nixos/disko.nix;
+      # (nix run github:nix-community/disko -- --mode disko hosts/disko.nix --argstr device /dev/nvme0n1)
+      diskoConfigurations.nixbox = import ./hosts/disko.nix;
+      diskoConfigurations.nixbook = import ./hosts/disko.nix;
 
-      nixosConfigurations = {
-        nixbox = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./nixos/configuration.nix
-            ./nixos/disko.nix
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.backupFileExtension = "backup";
-              home-manager.users.brigham = import ./home-manager/home.nix;
-            }
-          ];
+      nixosConfigurations =
+        let
+          hmModule = {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.brigham = import ./home-manager/home.nix;
+          };
+        in
+        {
+          nixbox = nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/common.nix
+              ./hosts/desktop/configuration.nix
+              ./hosts/disko.nix
+              disko.nixosModules.disko
+              home-manager.nixosModules.home-manager
+              hmModule
+            ];
+          };
+
+          nixbook = nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/common.nix
+              ./hosts/laptop/configuration.nix
+              ./hosts/disko.nix
+              disko.nixosModules.disko
+              home-manager.nixosModules.home-manager
+              hmModule
+            ];
+          };
         };
-      };
 
       homeConfigurations = {
         "brigham@nixbox" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            ./home-manager/home.nix
+          ];
+        };
+        "brigham@nixbook" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };
           modules = [

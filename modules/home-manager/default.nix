@@ -3,12 +3,4 @@
 {
   # List your module files here
   # my-module = import ./my-module.nix;
-home-manager.nixosModules.home-manager
-
-{
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-
-  home-manager.users.brigham = ./home.nix;
-}
 }
