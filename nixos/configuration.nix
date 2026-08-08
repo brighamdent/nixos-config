@@ -187,6 +187,11 @@
 
   boot.kernel.sysctl."vm.max_map_count" = lib.mkForce 2147483642;
 
+  systemd.services."home-manager-brigham" = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+  };
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
