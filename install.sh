@@ -5,6 +5,8 @@ REPO_URL="https://github.com/brighamdent/nixos-config.git"
 CLONE_DIR="/tmp/nixos-config"
 FLAKE_HOST="nixbox"
 
+rm -rf "$CLONE_DIR"
+
 echo "==> Cloning $REPO_URL"
 nix-shell -p git --run "git clone $REPO_URL $CLONE_DIR"
 

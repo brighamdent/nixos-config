@@ -34,6 +34,7 @@ in
     ./nvim.nix
     ./wallpapers.nix
     ./seed-wallpapers.nix
+    ./nixconfig.nix
   ];
 
   home = {
@@ -89,6 +90,8 @@ in
   services.udiskie = {
     enable = true;
     automount = true;
+    notify = true;
+    tray = "auto";
   };
 
   home.packages =

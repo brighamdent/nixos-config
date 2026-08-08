@@ -60,6 +60,8 @@
     };
   };
 
+  services.udisks2.enable = true;
+
   environment.pathsToLink = [
     "/share/applications"
     "/share/xdg-desktop-portal"
