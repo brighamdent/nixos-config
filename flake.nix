@@ -1,6 +1,5 @@
 {
   description = "Your new nix config";
-
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -9,32 +8,32 @@
       url = "github:Daaboulex/eden-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
-    # Home manager
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.url = "github:hyprwm/hyprland?ref=v0.36.0";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprland.url = "github:hyprwm/hyprland?ref=v0.36.0";
     rose-pine-hyprcursor = {
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.hyprlang.follows = "hyprland/hyprlang";
     };
   };
-
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
+      disko,
       ...
     }@inputs:
     let
-      # Supported systems for your flake packages, shell, etc.
       systems = [
         "aarch64-linux"
         "i686-linux"
@@ -42,34 +41,26 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
-      # This is a function that generates an attribute by calling a function you
-      # pass to it, with each system as an argument
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      # Your custom packages
-      # Accessible through 'nix build', 'nix shell', etc
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-      # Formatter for your nix files, available through 'nix fmt'
-      # Other options beside 'alejandra' include 'nixpkgs-fmt'
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-      # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
-      # Reusable nixos modules you might want to export
-      # These are usually stuff you would upstream into nixpkgs
       nixosModules = import ./modules/nixos;
-      # Reusable home-manager modules you might want to export
-      # These are usually stuff you would upstream into home-manager
       homeManagerModules = import ./modules/home-manager;
 
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
+      # Standalone disko configuration, used during install
+      # (nix run github:nix-community/disko -- --mode disko --flake .#nixbox)
+      diskoConfigurations.nixbox = import ./nixos/disko.nix;
+
       nixosConfigurations = {
         nixbox = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
             ./nixos/configuration.nix
+            ./nixos/disko.nix
+            disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -81,18 +72,12 @@
         };
       };
 
-      # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
-        # FIXME replace with your username@hostname
         "brigham@nixbox" = home-manager.lib.homeManagerConfiguration {
-          # Home-manager requires 'pkgs' instance
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # FIXME replace x86_64-linux with your architecture
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };
           modules = [
-            # > Our main home-manager configuration file <
             ./home-manager/home.nix
-
           ];
         };
       };
