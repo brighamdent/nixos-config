@@ -119,6 +119,7 @@
       extraGroups = [
         "wheel"
         "uinput"
+        "networkmanager"
       ];
     };
   };
@@ -184,6 +185,8 @@
   services.geoclue2.enable = true;
   services.automatic-timezoned.enable = true;
   security.polkit.enable = true;
+
+  networking.networkmanager.enable = true;
 
   environment.loginShellInit = ''
     if [ "$(tty)" = "/dev/tty1" ]; then
