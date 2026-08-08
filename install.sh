@@ -18,6 +18,6 @@ sudo -E nix run github:nix-community/disko -- \
 echo "==> Regenerating hardware-configuration.nix (no filesystems, disko owns those)"
 sudo nixos-generate-config --no-filesystems --root /mnt --dir "$CLONE_DIR/nixos"
 echo "==> Installing NixOS"
-sudo -E nixos-install --flake "$CLONE_DIR#$FLAKE_HOST"
+sudo -E nixos-install --flake "$CLONE_DIR#$FLAKE_HOST" --no-root-passwd
 echo "==> Install complete."
 echo "==> Reboot when ready, then log in."
