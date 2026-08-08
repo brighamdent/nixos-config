@@ -32,9 +32,9 @@ in
     ./starship.nix
     ./wlogout.nix
     ./nvim.nix
+    ./nixconfig.nix
     ./wallpapers.nix
     ./seed-wallpapers.nix
-    ./nixconfig.nix
   ];
 
   home = {
