@@ -65,15 +65,6 @@
     "/share/xdg-desktop-portal"
   ];
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "steam"
-      "steam-original"
-      "steam-unwrapped"
-      "steam-run"
-    ];
-
   nix = {
     settings = {
       # Enable flakes and new 'nix' command
