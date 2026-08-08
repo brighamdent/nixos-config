@@ -99,7 +99,7 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
-
+  users.users.root.hashedPassword = "$6$ro2TVsd4nlqrwRAw$kcbDBH4Jh8n/sG8QvGbVZP1J6upJIRYflWXd4GiK2Ma3nzb0V6XAHf0oNTB99dIeFif6AgYAp0v6lgOlhPwCM/";
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     # FIXME: Replace with your username
@@ -107,7 +107,7 @@
       # TODO: You can set an initial password for your user.
       # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
       # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "pass";
+      hashedPassword = "$6$ro2TVsd4nlqrwRAw$kcbDBH4Jh8n/sG8QvGbVZP1J6upJIRYflWXd4GiK2Ma3nzb0V6XAHf0oNTB99dIeFif6AgYAp0v6lgOlhPwCM/";
       isNormalUser = true;
       shell = pkgs.fish;
 

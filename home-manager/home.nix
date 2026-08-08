@@ -31,6 +31,9 @@ in
     ./kitty.nix
     ./starship.nix
     ./wlogout.nix
+    ./nvim.nix
+    ./wallpapers.nix
+    ./seed-wallpapers.nix
   ];
 
   home = {
@@ -95,6 +98,7 @@ in
       stow
       btop
       gcc
+      fd
       fastfetch
       eza
       fzf
@@ -119,6 +123,7 @@ in
       speedtest-cli
       prismlauncher
       cargo
+      nodejs
       inotify-tools
     ]
     ++ builtins.attrValues myPkgs;
