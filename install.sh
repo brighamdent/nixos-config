@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+export NIX_CONFIG="experimental-features = nix-command flakes"
+
 REPO_URL="https://github.com/brighamdent/nixos-config.git"
 CLONE_DIR="/tmp/nixos-config"
 FLAKE_HOST="nixbox"
@@ -16,13 +18,13 @@ lsblk
 read -p "Enter target device (e.g. /dev/nvme0n1): " device
 
 echo "==> Partitioning and formatting via disko"
-sudo nix run github:nix-community/disko -- \
+sudo -E nix run github:nix-community/disko -- \
   --mode disko \
   --flake "$CLONE_DIR#$FLAKE_HOST" \
   --arg device "\"$device\""
 
 echo "==> Installing NixOS"
-sudo nixos-install --flake "$CLONE_DIR#$FLAKE_HOST"
+sudo -E nixos-install --flake "$CLONE_DIR#$FLAKE_HOST"
 
 echo "==> Install complete."
 echo "==> Reboot when ready, then log in."
