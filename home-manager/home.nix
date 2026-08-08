@@ -7,7 +7,7 @@
   ...
 }:
 let
-  myScripts = import ../pkgs pkgs;
+  myPkgs = import ../pkgs pkgs;
 in
 {
   # You can import other home-manager modules here
@@ -22,6 +22,15 @@ in
     # ./nvim.nix
     ./fish.nix
     ./dunst.nix
+    ./hyprland.nix
+    ./hyprlock.nix
+    ./waybar.nix
+    ./wal.nix
+    ./tmux.nix
+    ./rofi.nix
+    ./kitty.nix
+    ./starship.nix
+    ./wlogout.nix
   ];
 
   home = {
@@ -82,11 +91,7 @@ in
   home.packages =
     with pkgs;
     [
-      hyprland
-      hyprlock
       wlogout
-      kitty
-      tmux
       stow
       btop
       gcc
@@ -94,12 +99,10 @@ in
       eza
       fzf
       zoxide
-      starship
       ripgrep
       chromium
       rofi
       vesktop
-      waybar
       pywal
       pavucontrol
       spotify
@@ -116,8 +119,9 @@ in
       speedtest-cli
       prismlauncher
       cargo
+      inotify-tools
     ]
-    ++ builtins.attrValues myScripts;
+    ++ builtins.attrValues myPkgs;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "25.11";

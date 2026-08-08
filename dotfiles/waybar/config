@@ -1,0 +1,105 @@
+{
+  "reload_style_on_change": true,
+    "modules-center": ["hyprland/workspaces"],
+    "modules-left": ["clock"],
+    /* "modules-right": ["tray", "custom/scratchpad-indicator", "pulseaudio", "custom/power"], */
+    "modules-right": ["tray", "custom/scratchpad-indicator", "network",
+    "pulseaudio", "battery", "custom/power"],
+        "hyprland/workspaces" : {
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{icon}",
+        "persistent_workspaces": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+        },
+    
+        "format-icons": {
+          "1": "",
+			"urgent": "",
+			"active": "",
+			"default": ""
+        },
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "network": {
+        "format-wifi": " ",
+        "format-ethernet": " 🔗",
+        "format-disconnected": "🚫", 
+        "max-length": 50,
+        "on-click": "kitty -e 'nmtui'",
+        "tooltip-format": " {ifname} via {gwaddri}",
+        "tooltip-format-wifi": "  {essid}\n{ipaddr}\nStrength: {signalStrength}%",
+        "tooltip-format-ethernet": " {ifname}\n {ipaddr}",
+        "tooltip-format-disconnected": "Disconnected",
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+		"on-click": "bash /home/dg/.local/bin/toggleRemote"
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
+    },
+    "clock": {
+          "format": "  {:%I:%M %p     %m/%d/%y }",
+          //"tooltip-format": "<big>{calendar}</big>",
+        // "format-alt": "{:%Y-%m-%d}"
+		"on-click": "gnome-calendar"
+    },
+    "pulseaudio": {
+        "format": "{volume} {icon} ",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": "0% {icon} ",
+        "format-source": "{volume} ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "swaync-client -t -sw"
+    },
+"battery": {
+        	"states": {
+            		"warning": 30,
+            		"critical": 15
+        	},
+        	"format": "{capacity}% {icon} ",
+        	"format-charging": "{capacity}%  ",
+        	"format-plugged": "{capacity}%  ",
+        	"format-alt": "{time} {icon}",
+          "format-icons": [" ", " ", " ", " ", " "],
+          "interval": 3
+	},
+	"custom/power": {
+		"format": " ",
+    "on-click": "wlogout -b 4 -T 400 -B 400",
+    "tooltip-format": ""
+	},
+    "custom/scratchpad-indicator": {
+        "format-text": "{}hi",
+        "return-type": "json",
+        "interval": 3,
+        "exec": "~/.local/bin/scratchpad-indicator 2> /dev/null",
+        "exec-if": "exit 0",
+        "on-click": "swaymsg 'scratchpad show'",
+        "on-click-right": "swaymsg 'move scratchpad'"
+    }
+}

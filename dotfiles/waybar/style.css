@@ -1,0 +1,117 @@
+@import "/home/brigham/.cache/wal/colors-waybar.css";
+/* @import '/home/brigham/.cache/wal/halftransparent.css'; */
+* {
+  border: none;
+  font-family: FontAwesome, Arial, sans-serif, "Font Awesome 7 Free Solid";
+  /* font-family: Jetbrains NF Mono; */
+  font-size: 17px;
+  letter-spacing: 1px;
+  /* font-weight: bold; */
+  color: #ffffff;
+  border-radius: 20px;
+}
+
+window {
+}
+window#waybar {
+  background: rgba(0, 0, 0, 0);
+}
+/*-----module groups----*/
+.modules-right {
+  background-color: rgba(22, 22, 22, 0.15);
+  margin: 20px 20px 0 0;
+}
+.modules-center {
+  background-color: rgba(22, 22, 22, 0.15);
+  margin: 20px 0 0 0;
+}
+.modules-left {
+  background-color: rgba(22, 22, 22, 0.15);
+  padding: 0 8px 0 8px;
+  margin: 20px 0 0 20px;
+}
+/*-----modules indv----*/
+#workspaces {
+  margin: 2px 1px 2px 1px;
+  padding: 0px 1px;
+  border-radius: 15px;
+  border: 0px;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 12px;
+  color: @textcolor1;
+}
+
+#workspaces button {
+  opacity: 0.5;
+  padding: 0px 5px;
+  margin: 4px 3px;
+  border-radius: 15px;
+  border: 0px;
+  color: @textcolor3;
+  min-width: 20px;
+  transition: all 0.3s ease-in-out;
+  background-color: @color3;
+}
+
+#workspaces button.active {
+  opacity: 1;
+  color: @textcolor1;
+  background-color: @color2;
+  border-radius: 15px;
+  min-width: 70px;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button:hover {
+  color: @textcolor1;
+  background-color: white;
+  border-radius: 15px;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#network {
+  min-width: 30px;
+}
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#custom-power,
+#custom-menu,
+#idle_inhibitor {
+  padding: 0 10px;
+}
+#mode {
+  color: #cc3436;
+  font-weight: bold;
+}
+#custom-power {
+  background-color: @color2;
+  border-radius: 100px;
+  margin: 5px 5px;
+  padding: 1px 1px 1px 6px;
+}
+/*-----Indicators----*/
+#idle_inhibitor.activated {
+  color: #2dcc36;
+}
+#pulseaudio.muted {
+  color: #cc3436;
+}
+#battery.charging {
+  color: #2dcc36;
+}
+#battery.warning:not(.charging) {
+  color: #e6e600;
+}
+#battery.critical:not(.charging) {
+  color: #cc3436;
+}
+#temperature.critical {
+  color: #cc3436;
+}

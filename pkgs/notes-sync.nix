@@ -1,12 +1,13 @@
 {
-  inotifywait,
+  writeShellApplication,
+  inotify-tools,
   git,
 }:
 
 writeShellApplication {
   name = "notes-sync";
   runtimeInputs = [
-    inotifywait
+    inotify-tools
     git
   ];
   text = builtins.readFile ../scripts/notes-sync.sh;

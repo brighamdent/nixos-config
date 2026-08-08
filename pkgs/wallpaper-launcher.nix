@@ -1,15 +1,15 @@
 {
   writeShellApplication,
-  hyprctl,
-  magick,
+  hyprland,
+  imagemagick,
   rofi,
 }:
 
 writeShellApplication {
   name = "wallpaper-launcher";
   runtimeInputs = [
-    hyprctl
-    magick
+    hyprland
+    imagemagick
     rofi
   ];
   text = builtins.readFile ../scripts/wallpaper-launcher.sh;

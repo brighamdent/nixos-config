@@ -2,7 +2,7 @@
   writeShellApplication,
   pywal,
   swww,
-  magick,
+  imagemagick,
 }:
 
 writeShellApplication {
@@ -10,7 +10,7 @@ writeShellApplication {
   runtimeInputs = [
     pywal
     swww
-    magick
+    imagemagick
   ];
   text = builtins.readFile ../scripts/change-wallpaper.sh;
 }
