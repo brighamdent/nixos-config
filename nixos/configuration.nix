@@ -21,7 +21,6 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
-    inputs.eden.nixosModules.default
   ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -42,7 +41,6 @@
       inputs.self.overlays.modifications
       inputs.self.overlays.unstable-packages
 
-      inputs.eden.overlays.default
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
@@ -94,7 +92,6 @@
 
   #System Packages
   programs.fish.enable = true;
-  programs.eden.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play

@@ -4,10 +4,6 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nur.url = "github:nix-community/NUR";
-    eden = {
-      url = "github:Daaboulex/eden-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager/release-25.11";
