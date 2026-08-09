@@ -40,7 +40,7 @@ nix-shell -p git --run "sudo git clone $WALLPAPER_URL /mnt/home/brigham/media/wa
 sudo chown -R 1000:100 /mnt/home/brigham
 
 echo "==> Installing NixOS"
-sudo -E nixos-install --flake "$CLONE_DIR#$FLAKE_HOST"
+sudo -E nixos-install --flake "$CLONE_DIR#$FLAKE_HOST" --no-root-passwd
 
 echo "==> Install complete."
 echo "==> Reboot when ready, then log in."
