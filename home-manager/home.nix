@@ -31,6 +31,7 @@ in
     ./kitty.nix
     ./starship.nix
     ./wlogout.nix
+    ./fastfetch.nix
     ./nvim.nix
     ./seed-wallpapers.nix
   ];
