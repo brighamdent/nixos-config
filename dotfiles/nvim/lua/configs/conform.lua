@@ -9,6 +9,7 @@ local options = {
     typescriptreact = { "prettier" },
     css = { "prettier" },
     html = { "prettier" },
+    go = { "gofumpt" }
     python = { "black" },
     sh = { "shfmt" },
     cs = { "csharpier" },

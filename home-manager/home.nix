@@ -127,6 +127,7 @@ in
       cargo
       nodejs
       inotify-tools
+      go
     ]
     ++ builtins.attrValues myPkgs;
 
