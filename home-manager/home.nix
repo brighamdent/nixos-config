@@ -128,7 +128,9 @@ in
       nodejs
       inotify-tools
       go
-    ]
+    ] ++ (with pkgs.unstablePkgs; [
+    eden
+    ])
     ++ builtins.attrValues myPkgs;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
