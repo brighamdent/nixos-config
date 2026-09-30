@@ -1,10 +1,9 @@
 # This is your home-manager configuration file
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
+{ inputs
+, lib
+, config
+, pkgs
+, ...
 }:
 let
   myPkgs = import ../pkgs pkgs;
@@ -93,6 +92,24 @@ in
     tray = "auto";
   };
 
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock"; # avoid launching multiple hyprlocks
+        before_sleep_cmd = "loginctl lock-session"; # lock before suspend
+        after_sleep_cmd = "hyprctl dispatch dpms on"; # wake screen after resume
+      };
+
+      listener = [
+        {
+          timeout = 900; # 15 min idle
+          on-timeout = "loginctl lock-session";
+        }
+      ];
+    };
+  };
+
   home.packages =
     with pkgs;
     [
@@ -106,7 +123,7 @@ in
       fzf
       zoxide
       ripgrep
-      chromium
+      firefox
       rofi
       vesktop
       pywal
@@ -128,8 +145,10 @@ in
       nodejs
       inotify-tools
       go
+      darktable
+      nautilus
     ] ++ (with pkgs.unstablePkgs; [
-    eden
+      eden
     ])
     ++ builtins.attrValues myPkgs;
 
