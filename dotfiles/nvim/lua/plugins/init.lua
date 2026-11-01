@@ -16,6 +16,32 @@ return {
     end,
   },
 
+{
+  "nvim-telescope/telescope.nvim",
+init = function()
+    -- remove the built-in 3-key defaults so "gr" no longer waits for more input
+    for _, lhs in ipairs { "grr", "grn", "gra", "gri", "grt" } do
+      pcall(vim.keymap.del, "n", lhs)
+    end
+    pcall(vim.keymap.del, "x", "gra")
+  end,
+  keys = {
+    { "gr", "<cmd>Telescope lsp_references<cr>", desc = "LSP references" },
+    { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "LSP implementations" },
+    { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "LSP type definition" },
+    { "ga", vim.lsp.buf.code_action, mode = { "n", "x" }, desc = "LSP code action" },
+    { "gn", vim.lsp.buf.rename, desc = "LSP rename" },
+  },
+  opts = {
+    pickers = {
+      lsp_references = {
+        layout_strategy = "horizontal",
+        layout_config = { width = 0.7, height = 0.6 },
+        show_line = false,
+      },
+    },
+  },
+},
   {
     "williamboman/mason.nvim",
     opts = {
@@ -30,8 +56,6 @@ return {
         "pyright",
         "nixfmt",
         "rnix-lsp",
-        "eslint-lsp",
-        "fixjson",
         "typescript-language-server",
         "black",
         "shfmt"
@@ -319,4 +343,19 @@ return {
       require("telescope").load_extension "undo"
     end,
   },
+{
+    "kawre/leetcode.nvim",
+
+    cmd = "Leet",
+    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+    dependencies = {
+        -- include a picker of your choice, see picker section for more details
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+    },
+    opts = {
+        -- configuration goes here
+    },
 }
+}
+

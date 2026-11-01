@@ -10,6 +10,15 @@ swww img --transition-type wipe --transition-angle 30 --transition-step 200 "$1"
 
 #Sets pywal color scheme
 wal -i "$1" -n
+pywalfox update
+
+dbus-send --session --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0
+cp --remove-destination ~/.cache/wal/vesktop.css ~/.config/vesktop/themes/wal.css
+# if pgrep dolphin >/dev/null; then
+#   pkill dolphin
+#   sleep 0.3
+#   setsid -f dolphin >/dev/null 2>&1
+# fi
 
 mkdir -p "$HOME/.current_wallpaper"
 

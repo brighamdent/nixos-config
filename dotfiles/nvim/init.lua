@@ -37,3 +37,30 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    vim.schedule(function()
+      -- mason is lazy-loaded in NvChad, so load it before using its command
+      require("lazy").load { plugins = { "mason.nvim" } }
+
+      local spec = require("lazy.core.config").plugins["mason.nvim"]
+      local wanted = spec and spec.opts and spec.opts.ensure_installed or {}
+      local registry = require "mason-registry"
+
+      local missing = false
+      for _, name in ipairs(wanted) do
+        local ok, installed = pcall(registry.is_installed, name)
+        if not ok or not installed then
+          missing = true
+          break
+        end
+      end
+
+      if missing then
+        vim.cmd "MasonInstallAll"
+      end
+    end)
+  end,
+})

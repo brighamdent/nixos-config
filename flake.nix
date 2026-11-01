@@ -6,6 +6,10 @@
     nur.url = "github:nix-community/NUR";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    };
+
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 

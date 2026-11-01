@@ -20,6 +20,7 @@
       tmfloat = "tmux-float";
       tmcode = "tmux-code";
       rebuild = "sudo nixos-rebuild switch --flake ~/.nixos#nixbox";
+      update = "sudo nix flake update --flake ~/.nixos";
     };
 
     # -------------------------
@@ -36,8 +37,8 @@
       set -gx PATH $HOME/bin $PATH
 
       # GUI env vars
-      set -gx GTK_THEME Adwaita:dark
-      set -gx QT_STYLE_OVERRIDE Adwaita-dark
+      # set -gx GTK_THEME Adwaita:dark
+      # set -gx QT_STYLE_OVERRIDE Adwaita-dark
 
       # keybinds
       bind \ch backward-kill-word

@@ -18,7 +18,6 @@ in
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
     ./fish.nix
     ./dunst.nix
     ./hyprland.nix
@@ -33,6 +32,9 @@ in
     ./fastfetch.nix
     ./nvim.nix
     ./seed-wallpapers.nix
+    ./kde.nix
+    ./firefox.nix
+    ./vesktop.nix
   ];
 
   home = {
@@ -123,10 +125,9 @@ in
       fzf
       zoxide
       ripgrep
-      firefox
       rofi
-      vesktop
       pywal
+      pywalfox-native
       pavucontrol
       spotify
       xwayland
@@ -145,12 +146,26 @@ in
       nodejs
       inotify-tools
       go
+      python3
       darktable
-      nautilus
+      bun
+      kdePackages.dolphin
+      kdePackages.kio-extras # trash, network, MTP, thumbnails over kio
+      kdePackages.ffmpegthumbs # video thumbnails
+      kdePackages.kdegraphics-thumbnailers
+      kdePackages.breeze-icons # fallback icons Dolphin expects
+      papirus-icon-theme
     ] ++ (with pkgs.unstablePkgs; [
       eden
     ])
     ++ builtins.attrValues myPkgs;
+
+  qt = {
+    enable = true;
+    platformTheme.name = "kde"; # older HM versions call this "qt5ct"
+  };
+
+  home.sessionVariables.XDG_MENU_PREFIX = "plasma-";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "25.11";

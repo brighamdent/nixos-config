@@ -1,0 +1,47 @@
+/**
+ * @name Wal
+ * @description Pywal-generated colors on top of midnight
+ */
+
+@import url('https://refact0r.github.io/midnight-discord/build/midnight.css');
+
+body {{
+  --transparency-tweaks: on;
+  --remove-bg-layer: on;
+  --bg-floating: color-mix(in srgb, {background}, black 25%);
+}}
+
+:root {{
+  --colors: on;
+
+  /* how see-through the panels are: higher = more transparent */
+  --wal-alpha: 30%;
+
+  --text-0: {background};
+  --text-1: {foreground};
+  --text-2: {foreground};
+  --text-3: color-mix(in srgb, {foreground}, {background} 15%);
+  --text-4: color-mix(in srgb, {foreground}, {background} 45%);
+  --text-5: color-mix(in srgb, {foreground}, {background} 65%);
+
+  --bg-4: color-mix(in srgb, {background}, transparent var(--wal-alpha));
+  --bg-3: color-mix(in srgb, color-mix(in srgb, {background}, black 25%), transparent var(--wal-alpha));
+  --bg-2: color-mix(in srgb, color-mix(in srgb, {background}, white 8%), transparent var(--wal-alpha));
+  --bg-1: color-mix(in srgb, color-mix(in srgb, {background}, white 15%), transparent var(--wal-alpha));
+
+  --hover: color-mix(in srgb, {foreground}, transparent 90%);
+  --active: color-mix(in srgb, {foreground}, transparent 80%);
+  --active-2: color-mix(in srgb, {foreground}, transparent 70%);
+  --message-hover: hsla(0, 0%, 0%, 0.1);
+
+  --accent-1: color-mix(in srgb, {color4}, white 12%);
+  --accent-2: {color4};
+  --accent-3: {color4};
+  --accent-4: color-mix(in srgb, {color4}, black 10%);
+  --accent-5: color-mix(in srgb, {color4}, black 20%);
+  --accent-new: var(--accent-2);
+
+  --border-light: var(--hover);
+  --border: var(--active);
+  --border-hover: var(--active);
+}}
