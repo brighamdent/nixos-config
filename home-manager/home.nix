@@ -1,9 +1,10 @@
 # This is your home-manager configuration file
-{ inputs
-, lib
-, config
-, pkgs
-, ...
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
 }:
 let
   myPkgs = import ../pkgs pkgs;
@@ -112,6 +113,8 @@ in
     };
   };
 
+  services.playerctld.enable = true;
+
   home.packages =
     with pkgs;
     [
@@ -155,7 +158,8 @@ in
       kdePackages.kdegraphics-thumbnailers
       kdePackages.breeze-icons # fallback icons Dolphin expects
       papirus-icon-theme
-    ] ++ (with pkgs.unstablePkgs; [
+    ]
+    ++ (with pkgs.unstablePkgs; [
       eden
     ])
     ++ builtins.attrValues myPkgs;

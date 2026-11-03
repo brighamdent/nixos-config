@@ -105,6 +105,8 @@
     jack.enable = true;
   };
 
+  security.rtkit.enable = true;
+
   services.blueman.enable = true;
 
   # services.kanata = {
@@ -140,6 +142,7 @@
       };
     };
   };
+  hardware.enableRedistributableFirmware = true;
 
   virtualisation.docker = {
     enable = true;
