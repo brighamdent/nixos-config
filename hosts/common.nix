@@ -109,25 +109,25 @@
 
   services.blueman.enable = true;
 
-  # services.kanata = {
-  #   enable = true;
-  #   keyboards.default = {
-  #     extraDefCfg = "process-unmapped-keys yes";
-  #     config = ''
-  #       (defsrc
-  #         ;
-  #       )
-  #
-  #       (defalias
-  #         semi (tap-hold 200 150 ; lmet)
-  #       )
-  #
-  #       (deflayer base
-  #         @semi
-  #       )
-  #     '';
-  #   };
-  # };
+  services.kanata = {
+    enable = true;
+    keyboards.default = {
+      extraDefCfg = "process-unmapped-keys yes";
+      config = ''
+        (defsrc
+          ;
+        )
+
+        (defalias
+          semi (tap-hold 200 150 ; lmet)
+        )
+
+        (deflayer base
+          @semi
+        )
+      '';
+    };
+  };
 
   hardware.bluetooth = {
     enable = true;
