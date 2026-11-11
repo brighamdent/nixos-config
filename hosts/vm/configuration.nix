@@ -16,5 +16,8 @@
   services.qemuGuest.enable = true;
   services.spice-vdagentd.enable = true;
 
+  ##### Flatpak (for Electron apps that misbehave on aarch64 NixOS) #####
+  services.flatpak.enable = true;
+
   system.stateVersion = "25.11";
 }
