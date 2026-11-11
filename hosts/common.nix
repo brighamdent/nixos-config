@@ -35,6 +35,7 @@
     with pkgs;
     [
       home-manager
+      kdePackages.kio-extras
     ]
     ++ [
       inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
@@ -51,6 +52,8 @@
   services.printing.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
+
+  services.udev.packages = [ pkgs.libmtp ];
 
   services.openssh = {
     enable = true;
@@ -109,25 +112,25 @@
 
   services.blueman.enable = true;
 
-  services.kanata = {
-    enable = true;
-    keyboards.default = {
-      extraDefCfg = "process-unmapped-keys yes";
-      config = ''
-        (defsrc
-          ;
-        )
-
-        (defalias
-          semi (tap-hold 200 150 ; lmet)
-        )
-
-        (deflayer base
-          @semi
-        )
-      '';
-    };
-  };
+  # services.kanata = {
+  #   enable = true;
+  #   keyboards.default = {
+  #     extraDefCfg = "process-unmapped-keys yes";
+  #     config = ''
+  #       (defsrc
+  #         ;
+  #       )
+  #
+  #       (defalias
+  #         semi (tap-hold 200 150 ; lmet)
+  #       )
+  #
+  #       (deflayer base
+  #         @semi
+  #       )
+  #     '';
+  #   };
+  # };
 
   hardware.bluetooth = {
     enable = true;
@@ -136,12 +139,13 @@
       General = {
         Experimental = true;
         FastConnectable = true;
+        JustWorksRepairing = "always";
       };
-      Policy = {
-        AutoEnable = true;
-      };
+      Policy.AutoEnable = true;
     };
   };
+
+  hardware.xpadneo.enable = true;
   hardware.enableRedistributableFirmware = true;
 
   virtualisation.docker = {
@@ -153,5 +157,13 @@
     if [ "$(tty)" = "/dev/tty1" ]; then
       exec Hyprland
     fi
+  '';
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1949", ATTR{idProduct}=="9981", MODE="0660", GROUP="users", TAG+="uaccess", ENV{ID_MTP_DEVICE}="1", ENV{ID_MEDIA_PLAYER}="1"
+  '';
+
+  boot.extraModprobeConfig = ''
+    options bluetooth disable_ertm=Y
   '';
 }
