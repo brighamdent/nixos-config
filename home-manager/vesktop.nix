@@ -7,11 +7,15 @@ let
   vesktopPackage =
     if isVm then
       pkgs.symlinkJoin {
-        name = "vesktop-sw";
+        name = "vesktop-vm";
         paths = [ pkgs.vesktop ];
         nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
-          wrapProgram $out/bin/vesktop --add-flags "--disable-gpu"
+          rm $out/bin/vesktop
+          makeWrapper ${pkgs.vesktop}/bin/vesktop $out/bin/vesktop \
+            --add-flags "--disable-gpu" \
+            --add-flags "--ozone-platform=x11" \
+            --add-flags "--force-device-scale-factor=2"
         '';
       }
     else
