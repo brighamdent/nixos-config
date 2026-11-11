@@ -132,7 +132,6 @@ in
       pywal
       pywalfox-native
       pavucontrol
-      spotify
       xwayland
       swww
       bc
@@ -160,7 +159,10 @@ in
       kdePackages.breeze-icons # fallback icons Dolphin expects
       papirus-icon-theme
     ]
-    ++ (with pkgs.unstablePkgs; [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 (with pkgs; [
+      spotify
+    ])
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 (with pkgs.unstablePkgs; [
       eden
     ])
     ++ builtins.attrValues myPkgs;
