@@ -1,12 +1,27 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, isVm ? false, ... }:
 let
   vencordSettingsSeed = pkgs.writeText "vencord-settings.json" (builtins.toJSON {
     enabledThemes = [ "wal.css" ];
     transparent = true;
   });
+  vesktopPackage =
+    if isVm then
+      pkgs.symlinkJoin {
+        name = "vesktop-sw";
+        paths = [ pkgs.vesktop ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/vesktop --add-flags "--disable-gpu"
+        '';
+      }
+    else
+      pkgs.vesktop;
 in
 {
-  programs.vesktop.enable = true;
+  programs.vesktop = {
+    enable = true;
+    package = vesktopPackage;
+  };
 
   xdg.configFile."vesktop/themes/wal.css".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/wal/vesktop.css";
