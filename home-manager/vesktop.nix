@@ -11,6 +11,8 @@ let
     postBuild = ''
       rm $out/bin/vesktop
       makeWrapper ${pkgs.vesktop}/bin/vesktop $out/bin/vesktop \
+        --unset NIXOS_OZONE_WL \
+        --unset WAYLAND_DISPLAY \
         --add-flags "--disable-gpu" \
         --add-flags "--ozone-platform=x11" \
         --add-flags "--force-device-scale-factor=2"
