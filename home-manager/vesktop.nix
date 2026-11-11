@@ -4,19 +4,23 @@ let
     enabledThemes = [ "wal.css" ];
     transparent = true;
   });
+  wrappedVesktop = pkgs.symlinkJoin {
+    name = "vesktop-vm";
+    paths = [ pkgs.vesktop ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      rm $out/bin/vesktop
+      makeWrapper ${pkgs.vesktop}/bin/vesktop $out/bin/vesktop \
+        --add-flags "--disable-gpu" \
+        --add-flags "--ozone-platform=x11" \
+        --add-flags "--force-device-scale-factor=2"
+    '';
+  };
   vesktopPackage =
     if isVm then
-      pkgs.symlinkJoin {
-        name = "vesktop-vm";
-        paths = [ pkgs.vesktop ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          rm $out/bin/vesktop
-          makeWrapper ${pkgs.vesktop}/bin/vesktop $out/bin/vesktop \
-            --add-flags "--disable-gpu" \
-            --add-flags "--ozone-platform=x11" \
-            --add-flags "--force-device-scale-factor=2"
-        '';
+      wrappedVesktop // {
+        override = _: wrappedVesktop;
+        inherit (pkgs.vesktop) pname version meta;
       }
     else
       pkgs.vesktop;
