@@ -141,6 +141,7 @@ in
       wl-clipboard
       parted
       unzip
+      alacritty
       wireplumber
       imagemagick
       speedtest-cli

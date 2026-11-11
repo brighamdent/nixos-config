@@ -1,8 +1,22 @@
-{ pkgs, ... }:
+{ pkgs, isVm ? false, ... }:
+let
+  kittyPackage =
+    if isVm then
+      pkgs.symlinkJoin {
+        name = "kitty-sw";
+        paths = [ pkgs.kitty ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/kitty --set LIBGL_ALWAYS_SOFTWARE 1
+        '';
+      }
+    else
+      pkgs.kitty;
+in
 {
   programs.kitty = {
     enable = true;
-    package = pkgs.kitty;
+    package = kittyPackage;
     shellIntegration = {
       # enableFishIntegration = true;
       mode = null;

@@ -54,13 +54,14 @@
       # (nix run github:nix-community/disko -- --mode disko hosts/disko.nix --argstr device /dev/nvme0n1)
       diskoConfigurations.nixbox = import ./hosts/disko.nix;
       diskoConfigurations.nixbook = import ./hosts/disko.nix;
+      diskoConfigurations.nixvm = import ./hosts/disko.nix;
 
       nixosConfigurations =
         let
-          hmModule = {
+          mkHm = { isVm }: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs isVm; };
             home-manager.backupFileExtension = "backup";
             home-manager.users.brigham = import ./home-manager/home.nix;
           };
@@ -74,7 +75,7 @@
               ./hosts/disko.nix
               disko.nixosModules.disko
               home-manager.nixosModules.home-manager
-              hmModule
+              (mkHm { isVm = false; })
             ];
           };
 
@@ -86,7 +87,19 @@
               ./hosts/disko.nix
               disko.nixosModules.disko
               home-manager.nixosModules.home-manager
-              hmModule
+              (mkHm { isVm = false; })
+            ];
+          };
+
+          nixvm = nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/common.nix
+              ./hosts/vm/configuration.nix
+              ./hosts/disko.nix
+              disko.nixosModules.disko
+              home-manager.nixosModules.home-manager
+              (mkHm { isVm = true; })
             ];
           };
         };
@@ -94,14 +107,21 @@
       homeConfigurations = {
         "brigham@nixbox" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = { inherit inputs; isVm = false; };
           modules = [
             ./home-manager/home.nix
           ];
         };
         "brigham@nixbook" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = { inherit inputs; isVm = false; };
+          modules = [
+            ./home-manager/home.nix
+          ];
+        };
+        "brigham@nixvm" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs; isVm = true; };
           modules = [
             ./home-manager/home.nix
           ];

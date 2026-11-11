@@ -19,7 +19,7 @@
 
       tmfloat = "tmux-float";
       tmcode = "tmux-code";
-      rebuild = "sudo nixos-rebuild switch --flake ~/.nixos#nixbox";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.nixos";
       update = "sudo nix flake update --flake ~/.nixos";
     };
 
