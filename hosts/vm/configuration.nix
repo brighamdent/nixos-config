@@ -18,6 +18,10 @@
 
   ##### Flatpak (for Electron apps that misbehave on aarch64 NixOS) #####
   services.flatpak.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
   system.stateVersion = "25.11";
 }
